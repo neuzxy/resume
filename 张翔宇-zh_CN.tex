@@ -34,40 +34,59 @@
 \section{\faCogs\ IT 技能}
 % increase linespacing [parsep=0.5ex]
 \begin{itemize}[parsep=0.5ex]
-  \item 编程语言C++ = Python = Java > Scala, 英语六级 561。
+  % \item 编程语言C++ = Python = Java > Scala, 英语六级 561。
   %\item 熟悉 Linux 平台，熟悉高可用服务系统架构和分布式系统原理。
-  \item 曾在华为诺亚方舟实验室和百度凤巢CTR模型组工作，有推荐广告模型和大规模深度学习平台开发经验，为TensorFlow贡献过3 个\href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{patches}(C++)。
+  \item 曾在华为（华为云深度学习平台、华为诺亚方舟实验室）和百度凤巢CTR模型组工作，4年推荐广告模型和大规模深度学习平台研发经验，熟悉TensorFlow和Paddle等深度学习引擎，优化多个Paddle Op，为TensorFlow贡献过3 个\href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{patches}。
+  \item 寻求对标阿里P7相关岗位（当前薪酬已在区间内）。
 \end{itemize}
 
 \section{\faUsers\ 项目经历}
 \datedsubsection{\textbf{百度} {凤巢CTR模型中台}}{2020.6 –  至今}
-\role{C++, CUDA, NCCL, Paddle etc.}{{研发工程师}}
+\role{C++, Python, CUDA, NCCL, Paddle etc.}{{研发工程师}}
 \begin{onehalfspacing}
 %\textbf{训练框架开发} 
-\textbf{负责AIBox/PaddleBox训练框架开发与多个业务的支撑}。PaddleBox是基于SSD/MEM/GPU的异构参数服务器训练框架，通过软件硬件联合优化来支撑千亿特征万亿参数DNN模型的Online Learning，目前支撑了百度商业化搜索广告、信息流原生广告等数十个场景的CTR模型训练。个人获得\textbf{百度移动生态部MEG最佳新人奖}、团队获得\textbf{百度技术委员会技术创新奖}，作为作者之一（团队内部排第三）将项目成果\textbf{投稿VLDB}。
+\textbf{负责AIBox/PaddleBox训练框架开发与多个业务的支撑}。PaddleBox是基于SSD/MEM/GPU的异构参数服务器训练框架，通过软硬件联合优化来支撑万亿参数DNN模型的Online Learning，目前支撑了百度商业化搜索广告、信息流原生广告等数十个场景的CTR模型训练。个人获得\href{https://baidu.com}{\textbf{百度移动生态部MEG最佳新人奖}}、联合团队获得\textbf{百度技术委员会技术创新奖}，作为作者之一（团队内部排第三）将项目成果 <<Communication-Efficient TeraByte-Scale Model Training Framework for Online Advertising>> \textbf{投稿VLDB}。
 \begin{itemize}%[parsep=0.5ex
-\item \textbf{训练性能优化}
-\\  \textbf{性能优化} 。通过Op Fusion等技术优化多个Paddle Op、引入类似Horovod的Tensor Fusion技术优化梯度通信，DNN训练性能累计提升超过20\%。
-\\  \textbf{Embedding量化}。支撑策略同学Embedding量化功能开发，Embedding参数从FP32转为INT16优化存储和计算性能。搜索广告CTR模型通过把Embedding从8维扩到16维提高模型表征能力而参数存储空间不变，cpm提升超过1\%。
-\item \textbf{SSD参数服务器架构升级}
-\\ \textbf{项目背景}。PaddleBox架构为单进程的SSD/MEM/HBM三层参数服务器，其中SSD KV引擎存储全量模型，SSD参数查找是很多场景模型训练的瓶颈。%训练流程为样本读取、SSD参数查找、DNN训练三级流水线并行，
-\\ \textbf{方案设计与开发}。设计SSD参数服务器独立架构，把SSD参数服务器做为可横行扩展的独立服务来提升SSD参数查找效率。架构升级涉及模型下载、SSD参数查找、SSD参数更新、全量模型保存和增量模型保存等功能开发，通过高效RPC通信、设计mempool、CPU binding、无锁消息队列和充分利用NUMA架构等技术进一步优化训练性能。
-\\ \textbf{项目收益}。分布式SSD参数服务器PULL的性能可以达到线性加速比，最大的搜索广告模型内存从1.2T降到700G（小于机器内存一半），后期可通过模型混部进一步提高资源利用率。%（小于机器内存一半）
-%架构解耦改造涉及模型下载、SSD参数查找、SSD参数更新、全量模型保存和增量模型保存等功能，通过Trainer本地参数缓存、PULL/PUSH充分并行、绑核和无锁队列等优化，1个单机8卡的GPU Trainer、2个SSD-PS模型相比单进程架构训练性能提升80\%。
-\item \textbf{分布式GPU参数服务器}。
-\\ \textbf{项目背景}。PaddleBox分布式训练需要预取分布在所有节点的Sparse Embedding参数，然后插入到本机GPU Hashtable，训练时直接从本机GPU Hashtable读取。因此不同机器GPU参数存储有冗余，导致显存利用率不高。
-\\ \textbf{方案设计与开发}。设计GPU多对多架构，通过参数存储无冗余的分布式GPU Hashtable方案来减少GPU显存占用。单GPU卡需要的Embedding参数分布在所有GPU上，通过对输入数据sharding，节点间利用GDR AlltoAll、节点内利用GPUDirect P2P通信来提升效率，通过相同参数合并减少通信量进一步提升性能。
-\\ \textbf{项目收益}。显存占用减少为原来的1/N（N为节点数），搜索广告场景整体训练性能比原多机方案慢了10\%左右（mini-batch跨机器跨卡通信 VS 本机跨卡通信），符合预期。
+\item \textbf{训练框架开发}
+
+\begin{itemize}
+\item \textbf{性能优化} 。通过Op Fusion等技术优化多个Paddle GPU Op (e.g. \href{https://github.com/neuzxy/Paddle/commit/5e6f8bf1f38622571d868e35bb99ccb924856aee}{fused embedding、continue value} 使得DNN训练整体提升15\%)，引入类似Horovod的Tensor Fusion技术优化梯度通信(性能提升5\%)，DNN训练性能累计提升超过20\%。
+\item \textbf{Embedding量化}。通过Embedding量化来优化存储和计算性能，与搜索广告主CTR模型合作把Embedding从8维扩到16维提高模型表征能力而参数存储空间不变(FP32->INT16)，CPM提升超过1\%。\href{https://github.com/neuzxy/Paddle/commit/1c5c0591ec3402c31eaa32a31c62e9fc518a11f2}{Paddle代码}
+\item \textbf{其他特性开发}。参数服务器统一显存管理；Sparse参数Adam GPU优化器，支撑TDM召回解决方案；Dense模型转换等相关工具开发。
 \end{itemize}
-\textbf{业务推广} 。贴吧原生广告、反作弊等业务支撑，支撑贴吧业务从基于MPI的CPU参数服务器框架迁移到PaddleBox；支撑商业化反作弊业务开发以连续特征为主、离散特征为辅的DNN模型。
+
+\item \textbf{分布式SSD参数服务器架构升级}
+\begin{itemize}
+\item \textbf{项目背景}。PaddleBox架构为单进程架构，GPU Worker和异构参数服务器位于同一进程空间内，其中SSD KV引擎存储全量模型，SSD参数查找是很多场景模型训练的瓶颈。%训练流程为样本读取、SSD参数查找、DNN训练三级流水线并行，
+\item \textbf{方案设计与开发}。设计SSD参数服务器独立架构，支持\textbf{GPU Worker和SSD参数服务器M:N}。架构升级涉及SSD参数查找和更新、模型加载、全量模型保存和增量模型保存等功能开发，通过多种方式优化\textbf{SSD-PS PULL性能达到超线性加速比}。% 把SSD参数服务器做为可横行扩展的独立服务来提升SSD参数查找效率
+% 通过高效RPC通信、设计mempool、CPU binding、PULL/PUSH无锁消息队列和充分利用NUMA架构等技术进一步优化训练性能。
+\item \textbf{项目收益}。分布式SSD参数服务器PULL的性能可以达 \textbf{超线性加速比}，通过调配GPU Worker和SSD参数服务器数量，\textbf{灵活应对算力瓶颈和参数拉取瓶颈}。架构升级后，搜索广告主模型内存占用从单进程的1.2T降到700G（机器内存1.5TB），可通过\textbf{模型混部}进一步提高资源利用率（进行中）。%（小于机器内存一半）
+%架构解耦改造涉及模型下载、SSD参数查找、SSD参数更新、全量模型保存和增量模型保存等功能，通过Trainer本地参数缓存、PULL/PUSH充分并行、绑核和无锁队列等优化，1个单机8卡的GPU Trainer、2个SSD-PS模型相比单进程架构训练性能提升80\%。
+\end{itemize}
+
+\item \textbf{分布式GPU参数服务器}
+\begin{itemize}
+\item \textbf{项目背景}。分布式训练需要通过RPC预取分布在所有节点的Embedding参数，训练时直接从本机GPU Hashtable读取，不同机器GPU参数存储有冗余导致显存利用率不高。
+\item \textbf{方案设计与开发}。设计GPU多对多架构通信架构，通过参数存储无冗余的分布式GPU Hashtable方案来减少GPU显存占用，通过多种方式优化Embedding参数跨机跨卡访存性能。
+% 单GPU卡需要的Embedding参数分布在所有GPU上，通过对输入数据sharding，节点间利用GDR AlltoAll、节点内利用GPUDirect P2P通信来提升效率，通过相同参数合并减少通信量进一步提升性能。
+\item \textbf{项目收益}。HBM PS显存占用显著减少，约为原来的1/N（N为节点数），可以支撑更大DNN模型。
+\end{itemize}
+
+\end{itemize}
+
+\textbf{业务推广} 
+\begin{itemize}%[parsep=0.5ex]
+ \item \textbf{商业化垂类业务支撑}。支撑贴吧等业务从基于MPI的CPU参数服务器框架迁移到PaddleBox。
+ \item \textbf{商业化反作弊业务支撑}。支撑多个业务从XGBoost 树模型转到PaddleBox DNN模型，开发以连续特征为主、离散特征为辅的DNN模型。
+\end{itemize}
 
 \end{onehalfspacing}
 
-\datedsubsection{\textbf{华为} \href{http://www.noahlab.com.hk}{诺亚方舟实验室}}{2018年9月 –  2020年6月}
-\role{Hive, Spark, Tensorflow etc.}{{高级推荐算法工程师}}
+\datedsubsection{\textbf{华为 - 共两次晋升} \href{http://www.noahlab.com.hk}{诺亚方舟实验室}}{2018年9月 –  2020年6月}
+\role{Tensorflow, Hive, Spark etc.}{{高级推荐算法工程师}}
 
 \begin{onehalfspacing}
-\textbf{华为手机应用市场（亿级月活产品）App付费推广业务} 。参与Offline、Nearline和Online三层推荐架构开发，历经FTRL、FFM和DNN类模型的迭代优化，从数据、特征、模型、策略和系统层面端到端优化提升业务指标。  
+\textbf{华为手机应用市场（亿级月活产品）App付费推广业务} 。参与Offline、Nearline和Online三层推荐架构开发，历经FTRL、FFM和DNN类模型的迭代优化，从数据、特征、模型和系统层面端到端优化提升业务指标。  
 \begin{itemize}%[parsep=0.5ex]
  % \item 数据层面。客户端精准曝光数据建模，反作弊去除恶意刷量异常样本。%eCPM提升2\%。
   \item \textbf{数据和特征层面}。采样策略探索，线上线下特征一致化；挖掘Item、User、Context单特征和组合特征，debias建模。
@@ -77,8 +96,9 @@
   %\item \textbf{策略层面}。设计多路召回、动态候选集、CTR后处理规则、多样性等策略。
   \item \textbf{系统层面}。
     \begin{itemize}
-    \item \textbf{训练优化}。基于OpenMP的FTRL训练优化，支撑单机百亿样本小时级训练；深度学习训练优化，构建Spark生成TFRecord Pipeline，优化深度学习数据读取模块，落地多卡训练，单机四卡训练线性加速比0.7。数据IO优化方案现用于\href{https://github.com/mindspore-ai/mindspore/blob/master/model_zoo/official/recommend/wide_and_deep/src/datasets.py}{华为自研深度学习框架mindspore ModelZoo}.
-    \item \textbf{线上服务优化}。Java线上服务开发，利用Batch Predict模型推理性能优化，推理性能提升40\%
+    \item \textbf{训练优化}。基于OpenMP的FTRL训练优化，支撑单机百亿样本小时级训练；深度学习训练优化，构建Spark生成TFRecord Pipeline，优化深度学习数据读取模块，落地多卡训练，单机四卡训练线性加速比0.7。数据IO优化方案现用于\href{https://github.com/mindspore-ai/mindspore/blob/master/model_zoo/official/recommend/wide_and_deep/src/datasets.py}{华为自研深度学习框架mindspore ModelZoo}。
+    \item \textbf{线上服务优化}。Java线上服务开发，利用TF Batching机制推理性能优化，推理性能提升40\%。
+    \item \textbf{分布式推理探索}。分布式TensorFlow-Serving推理原型开发验证（多模型副本），高并发情况下1000+候选集预测线性加速比0.77。\href{https://github.com/neuzxy/Distributed-TF-Serving.git}{Demo}
   \end{itemize}
   % \textit{离线训练优化}：FTRL特征工程实验效率提升数倍，落地深度学习模型多卡训练，四卡线性加速比0.6；\textit{线上服务优化}：大规模候选集场景下的在线推理服务latency优化，其中低秩模型（FTRL、FFM）采用多线程加速，线上服务latency减少50\%。深度学习模型基于TensorFlow-Serving的Batch Predict机制，较通过JNI调用libtensorflow.so性能提升40\%。
 %  \item \textbf{分布式系统原型探索}。
@@ -93,17 +113,17 @@
 \begin{onehalfspacing}
 \textbf{原生广告业务}   
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{智能助手原生广告}。参与智能助手业务（信息流广告）的迭代优化， 负责数据、特征和模型的端到端优化，引入文本和图片多模态特征，上线初版FTRL模型和DCN模型，CTR点击率提升累计超过20\%，eCPM提升超过15\%。
-  \item \textbf{华为视频App推广}。负责华为视频App推广的迭代优化，缓解样本极不均衡问题，上线FTRL和FFM模型，eCPM累计提升超过25\%。
+  \item \textbf{智能助手原生广告}。负责智能助手业务（信息流广告）数据、特征和模型的端到端优化，引入文本和图片多模态特征，上线初版FTRL模型和DCN模型，CTR点击率提升累计超过20\%，eCPM提升超过15\%。
+%  \item \textbf{华为视频App推广}。负责华为视频App推广的迭代优化，缓解样本极不均衡问题，上线FTRL和FFM模型，eCPM累计提升超过25\%。
 \end{itemize}
 \end{onehalfspacing}
 
 \begin{onehalfspacing}
 \textbf{推荐多样性算法研究与落地}   
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{算法研究}。针对推荐系统的多样性问题，提出一种个性化的DPP算法(Determinantal Point Processes，行列式点过程)，在不影响精度的情况下提升推荐多样性。
- 研究成果Personalized Re-ranking for Improving Diversity in Live Recommender Systems中稿KDD Workshop(DLP-KDD 2020)，第二作者。
-  \item \textbf{猜你喜欢场景业务落地}。负责整体方案设计，线上服务代码开发与测试，其中原始DPP下载转化率较基线提升5.5\%，提出的个性化DPP下载转化率较基线提升6.5\%。
+  \item \textbf{算法研究}。提出一种个性化的DPP算法(Determinantal Point Processes，行列式点过程)，在不影响精度的情况下提升推荐多样性。
+ 研究成果\href{https://arxiv.org/abs/2004.06390}{Personalized Re-ranking for Improving Diversity in Live Recommender Systems}中稿KDD Workshop(DLP-KDD 2020)，第二作者。
+  \item \textbf{应用市场猜你喜欢场景业务落地}。负责整体方案设计，线上服务代码开发与测试，其中原始DPP下载转化率较基线提升5.5\%，提出的个性化DPP下载转化率较基线提升6.5\%。
 \end{itemize}
 \end{onehalfspacing}
 
@@ -115,32 +135,32 @@
 %\end{itemize}
 %\end{onehalfspacing}
 
-% (工作9个月内部升级15级) (九个月晋升)
-\datedsubsection{\textbf{华为} \href{https://www.huaweicloud.com/product/modelarts.html} {ModelArts深度学习云服务}（从零到一）}{2017年7月 –  2018年9月}
+% (工作9个月内部升级15级) ()
+\datedsubsection{\textbf{华为} \href{https://www.huaweicloud.com/product/modelarts.html} {ModelArts深度学习云服务}（从零到一，九个月晋升）}{2017年7月 –  2018年9月}
 \role{Java, Docker, Kubernetes, Tensorflow etc.}{{深度学习云平台后端开发}}
 
 \begin{onehalfspacing}
 \textbf{服务端组件}    
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{组件功能开发}。负责训练作业和预置算法模型库两个模块的设计与开发，支持TensorFlow、MXNet、PyTorch和Horovod等深度学习作业的管理，支持多种深度学习引擎、多种版本模型库。%，支持模型的多引擎多版本
-  \item \textbf{服务可靠性}。对接公有云统一告警服务、调用链监控服务、云审计和日志收集服务，无状态多实例容器化部署，定位和解决现网问题。
-  \item \textbf{技术栈}: PostgreSQL, AWS S3
+  \item \textbf{组件功能开发}。负责训练作业和预置算法模型库等模块的设计与开发，支持TensorFlow、MXNet、PyTorch和Horovod等深度学习作业的生命周期管理，支持多种深度学习引擎、多种版本模型库。%，支持模型的多引擎多版本
+  \item \textbf{服务可靠性}。对接公有云统一告警服务、调用链监控服务、云审计和日志收集服务，无状态多实例容器化部署。
+  % \item \textbf{技术栈}: Scala, PostgreSQL, AWS S3
 \end{itemize}
 
 \begin{onehalfspacing}
 \textbf{作业调度组件}  
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{组件功能开发}。参与基于Kubernetes的深度学习作业调度和监控组件设计与开发，负责部分gPRC后端接口的实现，实现对多引擎、多类型深度学习作业的全生命周期管理，对外提供gPRC服务。
-  \item \textbf{技术栈}: C++, gRPC, Docker, Kubernetes, MySQL
+  \item \textbf{组件功能开发}。参与基于Kubernetes的深度学习作业调度和监控组件设计与开发，实现对多引擎、多类型深度学习作业的全生命周期管理，负责部分gPRC后端接口的实现，对外提供gPRC服务。
+  % \item \textbf{技术栈}: C++, gRPC, Docker, Kubernetes, MySQL
 \end{itemize}
 
 \begin{onehalfspacing}
 \textbf{消息(HTTP/gRPC)转发组件}  
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{组件功能开发}。负责技术选型，对接作业调度组件和文件管理组件gRPC服务，向外部组件提供RESTful API。
+  \item \textbf{组件功能开发}。负责技术选型，对接作业调度组件和文件管理组件gRPC服务，向外提供RESTful API。
   %\item 组件安全增强。完成 Server-Side 和 Client-Side 对 https 的支持，MySQL Client 对 SSL 的支持。
-  \item \textbf{服务可靠性}。Server-Side、Client-Side和MySQL Client 对SSL 的支持，数据库定时心跳检测，作业状态上报失败重试，无状态多实例容器化部署，Kubernetes监控服务和故障恢复。
-  \item \textbf{技术栈}: Java, Akka HTTP, gRPC, MySQL
+  \item \textbf{服务可靠性}。Server-Side、Client-Side对SSL 的支持，数据库定时心跳检测，作业状态上报失败重试。
+  % \item \textbf{技术栈}: Java, Akka HTTP, gRPC, MySQL
 \end{itemize}
 \end{onehalfspacing}
 
@@ -160,9 +180,9 @@
 \begin{onehalfspacing}
 \textbf{其它相关工作}  
 \begin{itemize}%[parsep=0.5ex]
-  \item \textbf{开源贡献}。TensorFlow 对 AWS S3 文件系统的支持(重构/BUG/UT)，贡献 \href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{3 个patches}(C++)。
+  \item \textbf{开源贡献}。TensorFlow 对 AWS S3 文件系统的支持(重构/BUG FIX/UT)，贡献 \href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{3 个patches}(C++)。
   %\item \textbf{公共工具}。Java 和 Scala 服务组件\href{https://github.com/neuzxy/AESCryptTools}{加密工具} 。 
-  \item 华为云 MXNet 引擎推理服务\href{https://github.com/huawei-clouds/dls-mxserving-client/tree/master/java}{Java 客户端}。
+  % \item 华为云 MXNet 引擎推理服务\href{https://github.com/huawei-clouds/dls-mxserving-client/tree/master/java}{Java 客户端}。
   \item MXNet NCCL/RDMA高性能技术调研和性能测试。
 \end{itemize}
 \end{onehalfspacing}
