@@ -36,16 +36,16 @@
 \begin{itemize}[parsep=0.5ex]
   % \item 编程语言C++ = Python = Java > Scala, 英语六级 561。
   %\item 熟悉 Linux 平台，熟悉高可用服务系统架构和分布式系统原理。
-  \item 曾在华为（华为云深度学习平台、华为诺亚方舟实验室）和百度凤巢CTR模型组工作，4年推荐广告模型和大规模深度学习平台研发经验，熟悉TensorFlow和Paddle等深度学习引擎，优化多个Paddle Op，为TensorFlow贡献过3 个\href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{patches}。
-  \item 寻求对标阿里P7相关岗位（当前薪酬已在区间内）。
+  \item 大厂核心团队4年推荐广告模型策略和大规模深度学习工程研发经验，熟悉TensorFlow和Paddle等深度学习引擎，优化多个Paddle Op，为TensorFlow贡献过3 个\href{https://github.com/tensorflow/tensorflow/pull/11089#issuecomment-320258536}{patches}。%曾在华为（华为云深度学习平台、华为诺亚方舟实验室）和百度凤巢CTR模型组工作，
+  \item 寻求对标阿里P7推荐广告AI Infra相关岗位（当前薪酬已在区间内）。
 \end{itemize}
 
 \section{\faUsers\ 项目经历}
 \datedsubsection{\textbf{百度} {凤巢CTR模型中台}}{2020.6 –  至今}
-\role{C++, Python, CUDA, NCCL, Paddle etc.}{{研发工程师}}
+\role{C++, Python, CUDA, NCCL, RDMA, Paddle etc.}{{研发工程师}}
 \begin{onehalfspacing}
 %\textbf{训练框架开发} 
-\textbf{负责AIBox/PaddleBox训练框架开发与多个业务的支撑}。PaddleBox是基于SSD/MEM/GPU的异构参数服务器训练框架，通过软硬件联合优化来支撑万亿参数DNN模型的Online Learning，目前支撑了百度商业化搜索广告、信息流原生广告等数十个场景的CTR模型训练。个人获得\href{https://baidu.com}{\textbf{百度移动生态部MEG最佳新人奖}}、联合团队获得\textbf{百度技术委员会技术创新奖}，作为作者之一（团队内部排第三）将项目成果 <<Communication-Efficient TeraByte-Scale Model Training Framework for Online Advertising>> \textbf{投稿VLDB}。
+\textbf{负责AIBox/PaddleBox训练框架开发与多个业务的支撑}。PaddleBox是基于SSD/MEM/GPU的异构参数服务器训练框架，通过软硬件联合优化来支撑万亿参数DNN模型的Online Learning，目前支撑了百度商业化搜索广告、信息流原生广告等数十个场景的CTR模型训练。个人获得\textbf{百度移动生态部MEG最佳新人奖}、联合团队获得\textbf{百度技术委员会技术创新奖}，作为作者之一（团队内部排第三）将项目成果 <<Communication-Efficient TeraByte-Scale Model Training Framework for Online Advertising>> \textbf{投稿VLDB}。
 \begin{itemize}%[parsep=0.5ex
 \item \textbf{训练框架开发}
 
@@ -66,10 +66,10 @@
 
 \item \textbf{分布式GPU参数服务器}
 \begin{itemize}
-\item \textbf{项目背景}。分布式训练需要通过RPC预取分布在所有节点的Embedding参数，训练时直接从本机GPU Hashtable读取，不同机器GPU参数存储有冗余导致显存利用率不高。
-\item \textbf{方案设计与开发}。设计GPU多对多架构通信架构，通过参数存储无冗余的分布式GPU Hashtable方案来减少GPU显存占用，通过多种方式优化Embedding参数跨机跨卡访存性能。
+\item \textbf{项目背景}。分布式训练需要通过RPC预取分布在所有节点的Embedding参数，训练时直接从本机GPU Hashtable读取，不同机器\textbf{GPU参数存储有冗余}导致显存利用率不高。
+\item \textbf{方案设计与开发}。设计\textbf{GPU多对多架构}通信架构，通过参数存储无冗余的分布式GPU Hashtable方案来减少GPU显存占用，通过多种方式优化Embedding参数跨机跨卡访存性能。
 % 单GPU卡需要的Embedding参数分布在所有GPU上，通过对输入数据sharding，节点间利用GDR AlltoAll、节点内利用GPUDirect P2P通信来提升效率，通过相同参数合并减少通信量进一步提升性能。
-\item \textbf{项目收益}。HBM PS显存占用显著减少，约为原来的1/N（N为节点数），可以支撑更大DNN模型。
+\item \textbf{项目收益}。HBM PS显存占用显著减少，约为原来的\textbf{1/N}（N为节点数），可以支撑更大DNN模型。
 \end{itemize}
 
 \end{itemize}
@@ -136,7 +136,7 @@
 %\end{onehalfspacing}
 
 % (工作9个月内部升级15级) ()
-\datedsubsection{\textbf{华为} \href{https://www.huaweicloud.com/product/modelarts.html} {ModelArts深度学习云服务}（从零到一，九个月晋升）}{2017年7月 –  2018年9月}
+\datedsubsection{\textbf{华为} \href{https://www.huaweicloud.com/product/modelarts.html} {ModelArts深度学习云服务}（从零到一）}{2017年7月 –  2018年9月}
 \role{Java, Docker, Kubernetes, Tensorflow etc.}{{深度学习云平台后端开发}}
 
 \begin{onehalfspacing}
